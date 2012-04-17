@@ -31,7 +31,7 @@ get '/actionlinks' do
       :enable_starttls_auto => true
     }
   })
-  {"params" => CGI::parse(request.query_string)}.to_json
+  {:success => true}.to_json
 end
 
 
