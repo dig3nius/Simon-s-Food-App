@@ -14,6 +14,27 @@ get "/" do
   erb :index
 end
 
+get '/actionlinks' do
+  bodystr = {"params" => CGI::parse(request.query_string)}.to_json
+  Pony.mail({
+    :to => 'sicross@gmail.com',
+    :subject => 'action link click',
+    :body => bodystr,
+    :via => :smtp,
+    :via_options => {
+      :address => 'smtp.sendgrid.net',
+      :port => '587',
+      :domain => 'heroku.com',
+      :user_name => ENV['SENDGRID_USERNAME'],
+      :password => ENV['SENDGRID_PASSWORD'],
+      :authentication => :plain,
+      :enable_starttls_auto => true
+    }
+  })
+  {"params" => CGI::parse(request.query_string)}.to_json
+end
+
+
 get '/recipes/lasagne' do
   erb :lasagne
 end
